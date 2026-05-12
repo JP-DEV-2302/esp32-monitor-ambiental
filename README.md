@@ -1,80 +1,57 @@
-# 🌡️ ESP32 — Monitor Ambiental MQTT
+🌡️ ESP32 — MQTT Environmental Monitor
+Firmware for ESP32 that monitors temperature and humidity using a DHT22 sensor, publishes data to an MQTT broker (HiveMQ Cloud with TLS), and triggers visual and audible alarms when values exceed safe ranges.
 
-Firmware para ESP32 que monitora temperatura e umidade via DHT22,
-publica dados em broker MQTT (HiveMQ Cloud com TLS) e aciona alarme
-sonoro e visual quando os valores saem das faixas seguras.
+📋 Features
 
-## 📋 Funcionalidades
 
-- Leitura de temperatura e umidade (DHT11 ou DHT22)
-- Publicação via MQTT com TLS (HiveMQ Cloud)
-- Alarme sonoro não-bloqueante (buzzer)
-- Display LCD 16×2 com valores em tempo real
-- Controle de LED RGB NeoPixel via JSON
-- Controle de lâmpada via JSON
-- Sistema de debug por níveis via serial
-- Reconexão automática de WiFi e MQTT
+Temperature and humidity monitoring (DHT11 or DHT22)
 
-## 🔧 Hardware necessário
 
-| Componente         | GPIO padrão |
-|--------------------|-------------|
-| Sensor DHT22       | 10          |
-| Buzzer             | 8           |
-| LED RGB (NeoPixel) | 48          |
-| Lâmpada (relé/LED) | 40          |
-| LCD I2C (0x27)     | SDA/SCL     |
-| Pino debug físico  | 4           |
+MQTT publishing with TLS (HiveMQ Cloud)
 
-## 🚀 Como usar
 
-### 1. Clone o repositório
-\`\`\`bash
-git clone https://github.com/seu-usuario/esp32-monitor-ambiental.git
-cd esp32-monitor-ambiental
-\`\`\`
+Non-blocking buzzer alarm
 
-### 2. Configure as credenciais
-\`\`\`bash
+
+16×2 LCD display with real-time readings
+
+
+NeoPixel RGB LED control via JSON
+
+
+Lamp control via JSON
+
+
+Multi-level serial debug system
+
+
+Automatic WiFi and MQTT reconnection
+
+
+
+🔧 Required Hardware
+ComponentDefault GPIODHT22 Sensor10Buzzer8RGB LED (NeoPixel)48Lamp (Relay/LED)40LCD I2C (0x27)SDA/SCLPhysical debug pin4
+
+🚀 Getting Started
+1. Clone the repository
+git clone https://github.com/your-username/esp32-environment-monitor.gitcd esp32-environment-monitor
+2. Configure credentials
 cp secrets.example.cpp src/secrets.cpp
-\`\`\`
-Edite `src/secrets.cpp` com suas credenciais WiFi e MQTT.
+Edit src/secrets.cpp with your WiFi and MQTT credentials.
+3. Build and flash
+Open the project in PlatformIO or Arduino IDE and upload it to the ESP32.
 
-### 3. Compile e grave
-Abra no PlatformIO ou Arduino IDE e grave no ESP32.
-
-## 📡 Tópicos MQTT
-
-| Direção  | Tópico                                        | Conteúdo              |
-|----------|-----------------------------------------------|-----------------------|
-| Publica  | .../comandoTemperatura                        | Ex: `23.5`            |
-| Publica  | .../comandoUmidade                            | Ex: `58.2`            |
-| Publica  | .../statusAlarme                              | `1` = alerta, `0` = ok|
-| Escuta   | .../# (wildcard)                              | JSON ou valores       |
-
-### Formato JSON para controle do LED e lâmpada
-\`\`\`json
+📡 MQTT Topics
+DirectionTopicContentPublish.../comandoTemperaturaExample: 23.5Publish.../comandoUmidadeExample: 58.2Publish.../statusAlarme1 = alert, 0 = okSubscribe.../# (wildcard)JSON or raw values
+JSON format for LED and lamp control
 { "led": { "r": 255, "g": 0, "b": 0 }, "lampada": true }
-\`\`\`
 
-## ⚙️ Configuração do sensor
+⚙️ Sensor Configuration
+In include/Componentes.h:
+#define DHTPIN     10      // Sensor GPIO#define DHTTYPE    DHT22   // DHT11 or DHT22#define BUZZER_PIN 8       // Buzzer GPIO
 
-Em `include/Componentes.h`:
-\`\`\`cpp
-#define DHTPIN    10      // GPIO do sensor
-#define DHTTYPE   DHT22   // DHT11 ou DHT22
-#define BUZZER_PIN 8      // GPIO do buzzer
-\`\`\`
+📁 Project Structure
+├── src/                  # Source files (.cpp)├── include/              # Header files (.h)├── secrets.example.cpp   # Credentials template└── README.md
 
-## 📁 Estrutura do projeto
-
-\`\`\`
-├── src/                  # Implementações (.cpp)
-├── include/              # Cabeçalhos (.h)
-├── secrets.example.cpp   # Modelo de credenciais
-└── README.md
-\`\`\`
-
-## 📄 Licença
-
-MIT License — sinta-se livre para usar e modificar.
+📄 License
+MIT License — feel free to use and modify this project.
